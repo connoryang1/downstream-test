@@ -1,7 +1,7 @@
 <<<<<<< HEAD
-cff-version: v1.6.1
+cff-version: v1.6.8
 =======
-cff-version: v1.6.12-cpp
+cff-version: v1.6.8-cpp
 >>>>>>> 2b4255b7b3f670527641ecfbc4eccadb9e296671
 message: "If you use this software, please cite it as below."
 title: 'downstream: a software package for stream curation algorithms'
