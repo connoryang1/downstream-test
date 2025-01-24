@@ -1,0 +1,20 @@
+[submodule "python"]
+	path = python
+	url = https://github.com/connoryang1/downstream-test
+	branch = python
+[submodule "zig"]
+	path = zig
+	url = https://github.com/connoryang1/downstream-test
+	branch = zig
+[submodule "csl"]
+	path = csl
+	url = https://github.com/connoryang1/downstream-test
+	branch = csl
+[submodule "cpp"]
+	path = cpp
+	url = https://github.com/connoryang1/downstream-test
+	branch = cpp
+[submodule "downstream"]
+	path = rust
+	url = https://github.com/connoryang1/downstream-test
+	branch = rust
