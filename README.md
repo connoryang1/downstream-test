@@ -117,6 +117,7 @@ Downstream is also available for [C++](https://mmore500.github.io/downstream/cpp
 ## Quickstart
 
 <!-- TODO: Add GIF — terminal recording of `pip install downstream` followed by running the Container API snippet below -->
+![Installation](tc497gif1.gif)
 
 ### Container API (Python — recommended)
 
@@ -173,7 +174,7 @@ surface_ancient  = Surface(stretched_algo, S=16)  # emphasis on older data
 surface_balanced = Surface(steady_algo,    S=16)  # uniform distribution
 ```
 
-<!-- TODO: Add GIF — side-by-side visualization of steady vs. tilted buffer fill patterns over 256 ingested items -->
+![Algorithm Demo](tc497gif2.gif)
 
 ### Batched Ingestion for High-Throughput Workloads
 
