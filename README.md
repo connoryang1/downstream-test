@@ -63,21 +63,27 @@ Downstream is used in:
 
 ---
 
+The retention policy — which slot gets overwritten next — is fully determined by the chosen algorithm (steady, stretched, tilted, or a hybrid) and isn't separately configurable. Concepts like "bins" or "segments," shown in some of the visualizations below, are internal implementation details of how a given algorithm organizes the buffer; they aren't a parameter you set yourself.
+
 ## How It Works
 
 A traditional ring buffer overwrites the oldest slot, keeping only the tail of the stream:
 
 ![Traditional ring buffer showing only recent items retained](https://raw.githubusercontent.com/mmore500/downstream/master/docs/docs/buffer-2.png)
 
-Downstream tracks *which item to overwrite* at each step so that retained items stay spread across the entire stream history. The animation below shows this step by step — each new item either claims a slot or is discarded, and the buffer always maintains representative coverage:
+
+Downstream tracks which item to overwrite at each step so that retained items stay spread across the entire stream history. The animation below shows this step by step for a larger, 16-slot buffer — each new item either claims a slot or is discarded, and the buffer always maintains representative coverage. Note that, unlike the diagram above, time in this animation runs top to bottom, and slots are grouped into labeled "bins" and "segments" — an internal detail of how the buffer is organized that's explained further below:
 
 ![Step-by-step ingestion simulation](tc497gif2.gif)
 
-After many items, the three algorithms produce distinct distributions across the buffer:
+In the animation above, labels like r0 and h0 are shorthand from the underlying algorithm: r followed by a number identifies which retained value is shown, and h followed by a number indicates that value's position within its bin. These labels reflect internal bookkeeping rather than something you need to track yourself — see the Architecture section below for how this connects to the public API.
+
+Downstream's general curation strategy — illustrated here for a single S=4 buffer — keeps items spread across the full history rather than just the most recent ones, unlike the ring buffer shown earlier:
 
 ![Downstream algorithm comparison showing steady, stretched, and tilted distributions](https://raw.githubusercontent.com/mmore500/downstream/master/docs/docs/buffer-1.png)
 
-Each column is a snapshot of the buffer at a given stream position. Colors indicate the original ingest time of the stored value — warm colors are older, cool colors are newer.
+
+Each column shows site assignments at a different point in the stream. Compare to the ring buffer above: the lookup formula here is more involved, but older items are retained instead of always being discarded.
 
 ### Choosing an Algorithm
 
@@ -91,9 +97,11 @@ Hybrid variants (e.g., `hybrid_0_steady_1_tilted_2_algo`) split the buffer betwe
 
 ### Architecture
 
+The library is organized into three layers, shown below: user-facing APIs at the top, core algorithms in the middle, and shared primitives at the bottom.
+
 ![Architecture diagram showing dsurf, dataframe, and CLI calling into dstream algorithms, which use _auxlib bit-math primitives](architecture.png)
 
-The library is organized into three layers. User-facing APIs (`dsurf`, `dataframe`, CLI) all delegate to the core algorithm implementations in `dstream`. The algorithms share a common set of bit-math primitives in `_auxlib`, which can be optionally JIT-compiled via Numba.
+Reading the diagram top to bottom: user-facing APIs (dsurf, dataframe, CLI) all delegate to the core algorithm implementations in dstream. The algorithms in turn share a common set of bit-math primitives in _auxlib, which can be optionally JIT-compiled via Numba. Each arrow represents a function call from the layer above into the layer below — there are no calls in the reverse direction.
 
 ---
 
