@@ -99,9 +99,14 @@ Hybrid variants (e.g., `hybrid_0_steady_1_tilted_2_algo`) split the buffer betwe
 
 The library is organized into three layers, shown below: user-facing APIs at the top, core algorithms in the middle, and shared primitives at the bottom.
 
-![Architecture diagram showing dsurf, dataframe, and CLI calling into dstream algorithms, which use _auxlib bit-math primitives](architecture.png)
+![Architecture diagram showing dsurf, dataframe, and CLI calling into dstream algorithms, which use _auxlib bit-math primitives](hld.png)
 
 Reading the diagram top to bottom: user-facing APIs (dsurf, dataframe, CLI) all delegate to the core algorithm implementations in dstream. The algorithms in turn share a common set of bit-math primitives in _auxlib, which can be optionally JIT-compiled via Numba. Each arrow represents a function call from the layer above into the layer below — there are no calls in the reverse direction.
+
+Below is the code flow of a basic downstream ingestion operation:
+
+![Architecture diagram showing downstream ingestion operation code flow](code-flow.png)
+
 
 ---
 
