@@ -72,7 +72,7 @@ A traditional ring buffer overwrites the oldest slot, keeping only the tail of t
 ![Traditional ring buffer showing only recent items retained](https://raw.githubusercontent.com/mmore500/downstream/master/docs/docs/buffer-2.png)
 
 
-Downstream tracks which item to overwrite at each step so that retained items stay spread across the entire stream history. The animation below shows this step by step for a larger, 16-slot buffer — each new item either claims a slot or is discarded, and the buffer always maintains representative coverage. Note that, unlike the diagram above, time in this animation runs top to bottom, and slots are grouped into labeled "bins" and "segments" — an internal detail of how the buffer is organized that's explained further below:
+Downstream tracks which item to overwrite at each step so that retained items stay spread across the entire stream history. The animation below shows this step by step for a larger, 15-slot buffer — each new item either claims a slot or is discarded, and the buffer always maintains representative coverage. Note that, unlike the diagram above, time in this animation runs top to bottom, and slots are grouped into labeled "bins" and "segments" — an internal detail of how the buffer is organized that's explained further below:
 
 ![Step-by-step ingestion simulation](tc497gif2.gif)
 
@@ -133,7 +133,7 @@ Downstream is also available for [C++](https://mmore500.github.io/downstream/cpp
 
 ## Quickstart
 
-![Installing downstream and running a basic stream ingestion demo](tc497gif1.gif)
+![Installing downstream and running a basic stream ingestion demo](output.gif)
 
 ```python
 from downstream.dsurf import Surface
